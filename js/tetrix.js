@@ -31,9 +31,6 @@ var tablero = [
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
@@ -45,8 +42,8 @@ var tablero = [
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1]
-
-] 
+    ];
+    
 var fichaGrafico= [
     [
         [
@@ -278,30 +275,59 @@ var objpieza  = function(){
     this.nueva = function(){
         this.tipo =Math.floor(Math.random()*7)
         this.y = 0
-        this.x = 2
+        this.x = 4
 
     }
+
+    this.chocar = function(anguloNuevo, xNueva, yNueva){
+		var resultado = false
+
+		
+		for(py=0;py<4;py++){
+			for(px=0;px<=4;px++){
+
+				if(fichaGrafico[this.tipo][anguloNuevo][py][px]>0){
+					if(tablero[yNueva + py][xNueva + px]>0){
+						resultado = true
+					}
+
+				}
+			}
+		}
+
+
+		return resultado;
+
+	};
 
     this.caer = function(){
         if(this.fotograma < this.retraso){
             this.fotograma++;
         }
         else{
-            this.y++;
-            this.fotograma = 0 ;
-        }
-    }
-    
-
-    this.rotar = function(){
-        if(this.angulo <3){
-            this.angulo++
+            if(this.chocar(this.angulo, this.y+1, this.x)==false){
+            this.y = this.y + 1;;
+         
         }
         else{
-            this.angulo=0;
+            this.poner()
+            this.nueva()
         }
-        console.log('rotar');  
+        this.fotograma =0;
+        }
+}
+     this.poner = function(){
+        for(py=0;py<4;py++){
+			for(px=0;px<=4;px++){
+
+				if(fichaGrafico[this.tipo][this.angulo][py][px]>0){
+					tablero[this.y + py][this.x + px] = fichaGrafico[this.tipo][this.angulo][py][px];
+				}
+			}
+		}
     }
+
+   
     
     this.dibuja = function(){
         for(py=0;py<4;py++){
@@ -332,39 +358,53 @@ var objpieza  = function(){
         }
      
     }
-    this.nueva()
+
+   
     this.rotar  = function(){
-        if(this.angulo <3){
-            this.angulo++
+
+        var anguloNuevo = this.angulo;
+
+
+        if(anguloNuevo <3){
+            anguloNuevo++
         }
         else{
-            this.angulo=0;
+            anguloNuevo=0;
+        }
+
+        if(this.chocar(anguloNuevo,this.y,this.x) == false){
+            this.angulo = anguloNuevo;
         }
         console.log('rotar');  
     }
     
     this.abajo = function(){
-        this.y++
+        if(this.chocar(this.angulo,this.y +1,this.x) == false){
+        this.y++;
         console.log('abajo');   
        }
+    }
 
        this.derecha = function(){
-           this.x++
+        if(this.chocar(this.angulo, this.x +1, this.y)==false){
+           this.x++;
         console.log('derecha');   
-
+        }
        }
 
        this.izquierda = function(){
-           this.x--
+        if(this.chocar(this.angulo, this.x - 0, this.y)==false){
+           this.x--;
         console.log('izquierda');   
        }
-
+       }
+       this.nueva 
 }
 
 
 function dibujaTablero(){
         for(py=margenSuperior;py<altoTablero;py++){
-            for(px=1;px<anchoTablero;px++){
+            for(px=1;px<anchoTablero+1;px++){
               
                 if(tablero[py][px]=0){
 
@@ -389,7 +429,7 @@ function dibujaTablero(){
                     if(tablero[py][px]==7)
                     ctx.fillStyle=negro;
 
-                ctx.fillRect((px-1)*anchoF, (py-altoTablero)*altoF , anchoF, altoF )
+                    ctx.fillRect(((this.px-1)*tamanyoFicha),((this.py-margenSuperior)*tamanyoFicha),tamanyoFicha,tamanyoFicha);
               
             }
         }
@@ -429,10 +469,8 @@ function inicializa(){
     ctx = canvas.getContext('2d')
 
     teclado()
-  
-    canvas.style.width = anchoCanvas;
-    canvas.style.height = altoCanvas;
-    
+    document.getElementById('canvas').style.width = anchoCanvas;
+    document.getElementById('canvas').style.height = altoCanvas;
     pieza = new objpieza();
 
     setInterval(function(){
@@ -448,7 +486,8 @@ canvas.height =altoCanvas
 
 function principal(){
 borrarCanvas();
-pieza.caer()  
-pieza.dibuja();  
 dibujaTablero()
+pieza.caer();  
+pieza.dibuja();  
+
 }

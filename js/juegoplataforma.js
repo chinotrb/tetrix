@@ -45,8 +45,8 @@ var escenario = [
   
 
 var player  = function(){
-    this.x = 100;
-    this.y = 100;
+    this.x = 80;
+    this.y = 80;
 
 this.vx=0;
 this.vy=0;
@@ -84,31 +84,28 @@ this.vx += this.velocidad ;
 }
 
 if (this.pulIzquierda == true ){
-this.vy -= this.velocidad
+this.vx  -= this.velocidad
 }
 
 //friccion
-if(this.vs > 0){
+if(this.vx > 0){
     this.vx -= this.friccion
 }
 
-if(this.vs <0){
+if(this.vx <0){
     this.vx += this.friccion
 }
 
 
-
-
-if(this.vy > 0){
     if (this.colicion(this.x,this.y + altoF)== true){
         this.suelo = true
         this.vy = 0; 
     }
-}
+
 
 //valores 
 this.y += this.vy;
-this.x += this.xy;
+this.x += this.vx;
 }
 
 this.arriba = function(){
@@ -142,13 +139,13 @@ this.fisica();
 ctx.fillStyle = '#398306 ';
 ctx.fillRect(this.x,this.y,anchoF,altoF);
 }
-
-
-
-
-
-
 }
+
+
+
+
+
+
 
   function inicializa(){
       

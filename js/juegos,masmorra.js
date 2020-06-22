@@ -1,5 +1,3 @@
-import { Howl } from "./howler.core";
-
 var camvas ;
 var CTX;
 var fps = 50;
@@ -8,33 +6,37 @@ var altof= 50;
 var anchof= 50
 var gamer
 
-var puera = '#541e05'
-var llave = '#2b2b2a'
-var cafe = '#8c520b';
-var negro  = '#292929';
-var sonido1 , sonido2
 
+var sonido1;
+var sonido2;
 var enemigo =[];
 var imagenantorcha 
 var enemigo 
 
 var esenario = [
-    [0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
-    [0,2,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,],
+    [0,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+    [0,2,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,],
     [3,2,0,2,2,2,2,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,2,0,],
     [0,2,2,2,2,2,2,0,0,2,0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,],
     [0,0,0,2,2,2,2,0,0,2,0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,],
     [0,0,0,2,0,0,2,0,0,2,0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,],
     [0,0,0,2,0,0,2,0,0,2,0,0,2,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,0,],
     [0,0,0,2,0,0,2,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,],
-    [0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,],
-    [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,1,0,]
+    [0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,1,0,],
+    [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
     
 ];
 
-sonido1 = new Howl({
-  src:[]
+/*sonido1 = new Howl({
+  src:['sonido/sonido1.wav'],
+  loop :false
 })
+
+sonido2 = new Howl({
+  src:['sonido/sonido2.wav'],
+  loop :false
+})
+*/
 
 function dibujaEscenario(){
 
@@ -48,90 +50,83 @@ function dibujaEscenario(){
     }
   }
 
-/*
-  var malo = function(x,y){
-    this.x = x;
-    this.y = y;
 
-    this.direccion = Math.floor(Math.random()*4);
+var malo = function(x,y){
+  this.y = y;
+  this.x = x;
 
-    this.retraso = 50;
-    this.fotograma = 0;
+  this.direccion =  Math.floor(Math.random()*4)
 
+this.retraso =50;
+this.fotograma = 0;
 
-    this.dibuja = function(){
-      ctx.drawImage(tileMap,0,32,32,32,this.x*anchof,this.y*altof,anchof,altof);
-    }
-
-
-    this.bloq = function(x,y){
-        var colisiona = false;
-
-        if(escenario[y][x]==0){
-          colisiona = true;
-        }
-        return colisiona;
-    }
-
-
-
-  this.muevimiento = function(){
-
-    
-
-    if(this.contador < this.retraso){
-      this.contador++;
-    }
-
-    else{
-      this.contador = 0;
-
-      //arriba
-      if(this.direccion == 0){
-        if(this.bloq(this.x, this.y-1)==false){
-          this.y--;
-        }
-        else{
-          this.direccion = Math.floor(Math.random()*4);
-        }
-      }
-
-
-      //abajo
-      if(this.direccion == 1){
-        if(this.bloq(this.x, this.y+1)==false){
-          this.y++;
-        }
-        else{
-          this.direccion = Math.floor(Math.random()*4);
-        }
-      }
-
-      //derecha
-      if(this.direccion == 3){
-        if(this.bloq(this.x+1, this.y)==false){
-          this.x++;
-        }
-        else{
-          this.direccion = Math.floor(Math.random()*4);
-        }
-      }
-      //izquierda
-      if(this.direccion == 2){
-        if(this.bloq(this.x-1, this.y)==false){
-          this.x--;
-        }
-        else{
-          this.direccion = Math.floor(Math.random()*4);
-        }
-      }
-
-    }
-
+  this.dibuja =function(){
+    ctx.drawImage(tileMap,32,32,32,32,this.x*anchof,this.y*altof,anchof,altof);
+      
   }
 
+  this.compruebacolision = function(x,y){
+    var colisiona = false 
+
+    if (esenario[y][x]==0){
+      colisiona= true;
+    }
+return colisiona 
+  }
+
+  this.mueve = function(){
+
+    gamer.colisionEnemigo(this.x, this.y);
+
+if(this.contador < this.retraso){
+  this.contador++;
 }
-*/
+else{
+this.contador = 0;
+
+
+//arriba
+if(this.direccion ==0){
+  if(this.compruebacolision(this.x, this.y -1 )==false){
+    this.y--;
+  }
+  else{
+    this.direccion = Math.floor(Math.random()*4);
+  }
+}
+//abajo
+if(this.direccion ==1){
+  if(this.compruebacolision(this.x, this.y +1 )==false){
+    this.y++;
+  }
+  else{
+    this.direccion = Math.floor(Math.random()*4);
+  }
+}
+//izquierda
+if(this.direccion ==2){
+  if(this.compruebacolision(this.x-1, this.y )==false){
+    this.x--;
+  }
+  else{
+    this.direccion = Math.floor(Math.random()*4);
+  }
+}
+//derecha
+if(this.direccion ==3){
+  if(this.compruebacolision(this.x+1, this.y)==false){
+    this.y++;
+  }
+  else{
+    this.direccion = Math.floor(Math.random()*4);
+  }
+}
+  }
+}
+}
+
+
+
 var player = function(){
     this.x = 1;
     this.y = 9;
@@ -141,6 +136,12 @@ var player = function(){
     this.dibuja = function(){
       ctx.drawImage(tileMap,0,32,32,32,this.x*anchof,this.y*altof,anchof,altof);
       
+    }
+    this.colisionEnemigo = function(x,y){
+      if(this.x == x && this.y == y){
+        this.muerte();
+      }
+  
     }
      
     this.Reglas = function(x,y){
@@ -180,11 +181,22 @@ var player = function(){
     this.victoria = function(){
       console.log('fin del juego');
   
-      this.x = 1;
-      this.y = 1;
+      this.x = 3;
+      this.y = 8;
   
       this.llave = false;   
-      escenario[8][3] = 3; 
+      escenario[1][2] = 3;
+    }
+
+
+    this.muerte  = function(){
+      console.log('as perdido');
+  
+      this.x = 1;
+      this.y = 9;
+  
+      this.llave = false;   
+      escenario[1][2] = 3; 
     }
   
   
@@ -257,12 +269,12 @@ function inicializa(){
 
 
      imagenantorcha = new antorcha(0,0)
-/*
+
      enemigo.push(new malo(11,2))
      enemigo.push(new malo(4,3))
-     enemigo.push(new malo(25,7))
-     enemigo.push(new malo(27,7))
-*/
+     enemigo.push(new malo(25,6))
+     enemigo.push(new malo(27,6))
+
      document.addEventListener('keydown',function(tecla){
          if(tecla.keyCode == 38){
          gamer.arriba();
@@ -282,6 +294,14 @@ function inicializa(){
             gamer.derecha();
 
         }
+
+        if(tecla.keyCode == 87){
+          sonido1.play()
+        }
+
+        if(tecla.keyCode == 88){
+          sonido2.play()
+        }
          
      })
 
@@ -293,20 +313,19 @@ setInterval(function(){
 function borraCanvas(){
     canvas.width = 1500;
     canvas.height = 500;
-var imgali;
 }
 function principal(){
     borraCanvas();
     dibujaEscenario()
     gamer.dibuja();
     imagenantorcha.dibuja()
-
-
-
+    
     for(c=0; c<enemigo.length; c++){
-      enemigo[c].muevimiento();
-      enemigo[c].dibuja();
+      enemigo[c].mueve()
+       enemigo[c].dibuja();
     }
+   
+
 
 }
 

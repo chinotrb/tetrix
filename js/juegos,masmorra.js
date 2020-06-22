@@ -1,3 +1,5 @@
+import { Howl } from "./howler.core";
+
 var camvas ;
 var CTX;
 var fps = 50;
@@ -10,6 +12,7 @@ var puera = '#541e05'
 var llave = '#2b2b2a'
 var cafe = '#8c520b';
 var negro  = '#292929';
+var sonido1 , sonido2
 
 var enemigo =[];
 var imagenantorcha 
@@ -29,6 +32,9 @@ var esenario = [
     
 ];
 
+sonido1 = new Howl({
+  src:[]
+})
 
 function dibujaEscenario(){
 

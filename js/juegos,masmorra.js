@@ -7,11 +7,11 @@ var anchof= 50
 var gamer
 
 
-var sonido1;
-var sonido2;
+var musica;
 var enemigo =[];
 var imagenantorcha 
 var enemigo 
+
 
 var esenario = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
@@ -27,16 +27,12 @@ var esenario = [
     
 ];
 
-/*sonido1 = new Howl({
-  src:['sonido/sonido1.wav'],
-  loop :false
+  musica = new Howl({
+  src:['musica/guerra.wav'],
+  loop :true  
 })
 
-sonido2 = new Howl({
-  src:['sonido/sonido2.wav'],
-  loop :false
-})
-*/
+
 
 function dibujaEscenario(){
 
@@ -270,6 +266,7 @@ function inicializa(){
 
      imagenantorcha = new antorcha(2,9)
      
+     musica.play()
 
      enemigo.push(new malo(12,4))
      enemigo.push(new malo(4,3))

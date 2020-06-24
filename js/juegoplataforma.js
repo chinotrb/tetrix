@@ -12,14 +12,14 @@ var protagonista
 
 var escenario = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,2,2,2,2,2,2,2,2,2,2,2,0,0],
     [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
     [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
     [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-    [0,2,2,2,2,0,0,0,0,0,2,2,2,2,0],
     [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-    [0,2,2,2,2,2,2,2,2,2,2,0,0,2,0],
-    [0,2,2,2,2,2,2,0,2,2,2,0,0,2,0],
-    [0,2,2,2,2,2,0,0,0,2,2,0,0,0,0],
+    [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
+    [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
+    [0,0,2,2,2,2,2,2,2,2,2,2,2,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   ]
   
@@ -54,7 +54,7 @@ this.vy=0;
 this.gravedad = 0.5;
 this.friccion = 0.4 ;
 
-this.salto =10;
+this.salto =12;
 this.velocidad = 3;
 this.velocidadMax = 5;
 
@@ -97,6 +97,7 @@ if(lugar == 4){
 }
 
 this.fisica = function(){  
+  
   //grabedad 
   if (this.suelo == false ){
     this.vy  += this.gravedad;
@@ -108,19 +109,19 @@ if (this.pulsaDerecha == true && this.vx <= this.velocidadMax){
 }
 
 //Derecha 
-if (this.pulsaIzquierda == true && this.vx >= 0-(this.velocidadMax)){
+if (this.pulsaIzquierda == true && this.vx >= 0-  (this.velocidadMax)){
   this.vx -= this.velocidad;
 }
 //FRICCION
 
-//derecha 
+//izquierda 
 if (this.vx  >0);{
 this.vx -= this.friccion;
- 
-  
+
+
 }
 
-//izquierda 
+//derecha 
 if (this.vx <0){
 this.vx += this.friccion;
 
@@ -128,27 +129,47 @@ if (this.vx>0){
   this.vx = 0;
 }
 
-//derecha 
-if (this.vx > 0){
-    if ((this.colision(this.x + anchoF + this.vx , this.y +1)== true) || (this.colision(this.x + anchoF + this.vx , this.y + altoF -1)== true)){
-      this.vx = 0;
-        }
 }
+//DERECHA 
+ if(this.vx  > 0){
+if((this.colision(this.x +  anchoF + this.vx, this.y +1 )==true) || (this.colision(this.x +  anchoF + this.vx, this.y +altoF -1 )==true)){ 
+ if (this.x != parseInt(this.x / anchoF)*anchoF){
+   this.correccion(4)
+ }
+  this.vx = 0
+         }
+      }
+
+      if(this.vx  < 0){
+        if((this.colision(this.x + this.vx, this.y +1 )==true) || (this.colision(this.x+ this.vx, this.y +altoF -1 )==true)){ 
+         if (this.x != parseInt(this.x / anchoF)*anchoF){
+           this.correccion(3 )
+         }
+          this.vx = 0
+                 }
+              }
+        
 
 
-}
+  //valore 
+  this.y += this.vy;
+  this.x += this.vx;  
+
 //techo 
 if(this.vy <0){
-  if((this.colision(this.x , this.y)==true) || (this.colision(this.x + anchoF , this.y)==true) ){
+  if((this.colision(this.x+ 1 , this.y)==true) || (this.colision(this.x + anchoF - 1, this.y)==true) ){
       this.suelo = true;
       this.vy = 0;
       this.correccion(2);
 }
 }
 
+
+
+
 //suelo     
 if(this.vy >=0){
-  if((this.colision(this.x , this.y +  altoF)==true) || (this.colision(this.x + anchoF , this.y +  altoF)==true) ){
+  if((this.colision(this.x +1 , this.y +  altoF)==true) || (this.colision(this.x + anchoF -1, this.y +  altoF)==true) ){
       this.suelo = true;
       this.vy = 0;
       this.correccion(1);
@@ -159,22 +180,14 @@ else{
 }
 }
 
-  
 
-  //valore 
-  this.y += this.vy;
-  this.x += this.vx;  
 }
-
-
-
-
 
 this.arriba = function(){
 
-  if(this.suelo == false){
+  if(this.suelo == true){
     this.vy -= this.salto;
-    this.suelo = true;
+    this.suelo = false;
   }
 }
 
@@ -203,7 +216,13 @@ this.fisica()
 }
 
 
-this.creaBloque = function(x,y){
+/**--*-*-*-*-*-**-**-*-*-** */
+
+
+
+
+
+function creaBloque(x,y){
 var yBloque = parseInt(y/anchoF)
 var xBloque = parseInt(x/altoF)
 
@@ -219,7 +238,7 @@ escenario[yBloque][xBloque] = colorBloque
 }
 
 
-this.dibujaBloque = function(x,y) {   
+function dibujabloque(x,y) {   
   
   ctx.fillStyle = '#777777';
   ctx.fillRect(parseInt(x/anchoF)*anchoF,parseInt(y/altoF)*altoF,anchoF,altoF);
@@ -313,6 +332,7 @@ canvas.addEventListener('mousemove', posicionRaton,false);
       function principal(){
         borraCanvas();
         dibujaEscenario();
+        dibujabloque(ratonX,ratonY);
 
         protagonista.dibuja()
      

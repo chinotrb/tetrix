@@ -11,6 +11,7 @@ var altoTablero  = 20;
 var anchoF = 40
 var altoF = 40
 var margenSuperior = 4
+var musica 
 
 var rosa = '#fc052e'
 var verde ='#14ff08'
@@ -336,6 +337,7 @@ this.limpia = function(){
             for(px=1;px<=anchoTablero;px++){
                 tablero[py][px] = 0;
             }
+            
         }
 
 
@@ -343,6 +345,19 @@ this.limpia = function(){
 
 };
 
+
+this.bajarpiesas = function(){
+    if(this.fotograma <this.retraso){
+        this.fotograma++;
+        }
+        else{
+        
+            if(this.colision(this.angulo,this.y+1,this.x)==false){
+         this.y++;
+         this.fotograma= 0
+        }
+    }
+}
 
 this.caer = function(){
 if(this.fotograma <this.retraso){
@@ -552,6 +567,10 @@ function reseteaTablero(){
 }
 
 
+musica = new Howl({
+    src:['musica/tetrix.wav'],
+    loop : true  
+  })
 
 
 function inicializa(){
@@ -564,6 +583,9 @@ function inicializa(){
 ////
     pieza = new objpieza();
    ///
+
+musica.play()
+   //
     InicialisaTeclado();
 
     setInterval(function(){

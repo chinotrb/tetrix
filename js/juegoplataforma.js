@@ -9,16 +9,15 @@ var muro = '#000000';
 var tierra = '#950F4C';
 
 var protagonista 
-
 var escenario = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,2,2,2,2,2,2,2,2,2,2,2,0,0],
+    [0,2,2,2,2,2,2,2,2,0,0,0,0,2,0],
+    [0,2,2,2,2,2,2,0,0,2,2,2,2,2,0],
     [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
+    [0,0,2,2,2,2,2,2,2,2,2,2,2,2,0],
     [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-    [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-    [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-    [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-    [0,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
+    [0,2,2,0,2,2,2,2,0,2,2,2,2,2,0],
     [0,0,2,2,2,2,2,2,2,2,2,2,2,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   ]
@@ -26,21 +25,20 @@ var escenario = [
   function dibujaEscenario(){
     var color;
   
+  
     for(y=0;y<10;y++){
       for(x=0;x<15;x++){
   
         if(escenario[y][x]==0)
-          color = muro;
+        color= muro;
   
         if(escenario[y][x]==2)
-          color = tierra;
-  
-        ctx.fillStyle = color;
-        ctx.fillRect(x*anchoF,y*altoF,anchoF,altoF);
+        color = tierra;  
+
+         ctx.fillStyle = color;
+         ctx.fillRect(x*anchoF , y*altoF, anchoF, altoF);
       }
     }
-  
-  
   }
   
 
@@ -139,6 +137,7 @@ if((this.colision(this.x +  anchoF + this.vx, this.y +1 )==true) || (this.colisi
   this.vx = 0
          }
       }
+
 
       if(this.vx  < 0){
         if((this.colision(this.x + this.vx, this.y +1 )==true) || (this.colision(this.x+ this.vx, this.y +altoF -1 )==true)){ 
@@ -279,7 +278,7 @@ var ratonY = 0
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
 
-    
+
    protagonista = new jugador;
 
 canvas.addEventListener('mousedown', clickRaton,false);
@@ -333,7 +332,6 @@ canvas.addEventListener('mousemove', posicionRaton,false);
         borraCanvas();
         dibujaEscenario();
         dibujabloque(ratonX,ratonY);
-
         protagonista.dibuja()
      
       }

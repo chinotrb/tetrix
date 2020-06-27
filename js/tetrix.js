@@ -2,16 +2,17 @@ var canvas
 var ctx 
 var fps = 50
 
-var anchoCanvas = 400;
-var altoCanvas = 640;
+var widthCanvas = 400;
+var tallCanvas = 640;
 
-var anchoTablero = 10;
-var altoTablero  = 20;
+var widthboard = 10;
+var tallboard  = 20;
 
-var anchoF = 40
-var altoF = 40
-var margenSuperior = 4
-var musica 
+var piece 
+var widthF = 40
+var tallF = 40
+var TopMargin = 4
+//var musica 
 
 var rosa = '#fc052e'
 var verde ='#14ff08'
@@ -21,7 +22,7 @@ var vino = '#91013b'
 var morado = '#7e0191'
 var rojo = '#910101'
 
-var tablero = [
+var board = [
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,1],
@@ -46,32 +47,32 @@ var tablero = [
     ];
     
 
-    var tableroSecundario = [
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1,1,1,1]
-        ];
+    var boardSecond = [
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1]
+];
         
 
-var fichaGrafico= [
+var Graphics= [
     [//cuadrado
         [
         [0,0,0,0],
@@ -287,322 +288,314 @@ var fichaGrafico= [
         ]
     ]
     ];
-var pieza 
-var objpieza  = function(){
+
+
+
+var objpiece  = function(){
     this.x= 0;
     this.y= 0 ;
 
     this.retraso=50;
     this.fotograma=0;
     
-    this.angulo = 0;
-    this.tipo= 6;
-//crea pieza 
-this.nueva = function(){
-    this.tipo = Math.floor(Math.random()*7);
+    this.angle = 0;
+    this.kind= 6;
+//crea piece 
+this.newPiece = function(){
+    this.kind = Math.floor(Math.random()*7);
     this.y =0;  
     this.x =4;
-}
-
-
-this.perder = function(){
-    var pierde = false;
-
-    for(px=1;px<anchoTablero+1;px++){
-    if(tablero[2][px]>0){
-        pierde = true;
-        
-    }   
-    }
-    return pierde;
 };
 
-//limpiar ultima fila 
-this.limpia = function(){
+
+this.lose= function(){
+    var loser = false;
+
+    for(px=1;px<widthboard+1;px++){
+    if(board[2][px]>0){
+        loser = true;
+        
+             }   
+        }
+    return loser;
+};
+
+this.bajarpieces = function(){
+    var pieces;
+
+
+    for(py=TopMargin;py<tallboard;py++){
+        pieces = true;
+
+        for(px=1;px<=widthboard;px++){
+            if(board[py][px]==0){
+                pieces =false;
+
+            }
+
+    }
+    if(pieces = true){
+        for (px=1;px<=widthboard;px++){
+            if(board[py][px]=pieces ){
+            }
+        }   
+    }
+}
+};
+
+
+//limpiar fila completa  
+this.clean = function(){
 
     var filaCompleta;
 
-    for(py=margenSuperior;py<altoTablero;py++){
+    for(py=TopMargin;py<tallboard;py++){
 
         filaCompleta = true;
 
-        for(px=1;px<=anchoTablero;px++){
-            if(tablero[py][px]==0){
+        for(px=1;px<=widthboard;px++){
+            if(board[py][px]==0){
                 filaCompleta = false;
             }
         }
-
         if(filaCompleta == true){
-            console.log("limpia");
-            for(px=1;px<=anchoTablero;px++){
-                tablero[py][px] = 0;
+            console.log("clean");
+            for(px=1;px<=widthboard;px++){
+                board[py][px] = 0;
             }
-            
+            this.bajarpieces()
         }
-
-
     }
-
 };
 
 
-this.bajarpiesas = function(){
-    if(this.fotograma <this.retraso){
-        this.fotograma++;
-        }
-        else{
-        
-            if(this.colision(this.angulo,this.y+1,this.x)==false){
-         this.y++;
-         this.fotograma= 0
-        }
-    }
-}
-
-this.caer = function(){
+this.fallOut = function(){
 if(this.fotograma <this.retraso){
 this.fotograma++;
 }
 else{
 
-    if(this.colision(this.angulo,this.y+1,this.x)==false){
+    if(this.collision(this.angle,this.y+1,this.x)==false){
  this.y++;
  this.fotograma= 0
-}
+ }
 else{
 
+     this.place()
+     this.clean()
+     this.newPiece()
 
-
-     this.fijar()
-     this.limpia()
-    this.nueva()
-
-
- if(this.perder()==true){
-     reseteaTablero()
- }
-}   
-}
+ if(this.lose()==true){
+     reseteaboard()
+            }
+        }   
+    }
 };
 
-this.fijar = function(){
+this.place = function(){
     for(py=0;py<4;py++){
         for(px=0;px<4;px++){
-            if(fichaGrafico[this.tipo][this.angulo][py][px]>0){
-               tablero[this.y+py][this.x+px] =fichaGrafico[this.tipo][this.angulo][py][px]
-
-}
+            if(Graphics[this.kind][this.angle][py][px]>0){
+               board[this.y+py][this.x+px] =Graphics[this.kind][this.angle][py][px]
+            }
+         }  
     }
-}
 };
 
-//chocar pieza    
-this.colision = function(anguloNuevo , yNueva , xNueva){
+//chocar piece    
+this.collision = function(angleNew , yNew , xNew){
     var resultado= false;
 
     for(py=0;py<4;py++){
         for(px=0;px<4;px++){
-            if(fichaGrafico[this.tipo][anguloNuevo][py][px]>0){
-                if(tablero[yNueva+py][xNueva+px]>0){
+            if(Graphics[this.kind][angleNew][py][px]>0){
+                if(board[yNew+py][xNew+px]>0){
                     resultado=true
                 }
             }
-
-}
+        }
     }
-    return resultado
-}
+   return resultado
+};
 
 
-// dibuja piezas 
-    this.dibuja = function(){
+// drawpieces 
+    this.draw= function(){
+
         for(py=0;py<4;py++){
             for(px=0;px<4;px++){
               
                 
-                if(fichaGrafico[this.tipo][this.angulo][py][px]>0){
+                if(Graphics[this.kind][this.angle][py][px]>0){
 
-                if(fichaGrafico[this.tipo][this.angulo][py][px]==1)
+                if(Graphics[this.kind][this.angle][py][px]==1)
                     ctx.fillStyle=rojo;
-                if(fichaGrafico[this.tipo][this.angulo][py][px]==2)
+                if(Graphics[this.kind][this.angle][py][px]==2)
                     ctx.fillStyle=morado;
-                if(fichaGrafico[this.tipo][this.angulo][py][px]==3)
+                if(Graphics[this.kind][this.angle][py][px]==3)
                     ctx.fillStyle=vino;
-                if(fichaGrafico[this.tipo][this.angulo][py][px]==4)
+                if(Graphics[this.kind][this.angle][py][px]==4)
                     ctx.fillStyle=azul;
-                if(fichaGrafico[this.tipo][this.angulo][py][px]==5)
+                if(Graphics[this.kind][this.angle][py][px]==5)
                     ctx.fillStyle=verde;
-                if(fichaGrafico[this.tipo][this.angulo][py][px]==6)
+                if(Graphics[this.kind][this.angle][py][px]==6)
                     ctx.fillStyle=rosa;
-                if(fichaGrafico[this.tipo][this.angulo][py][px]==7)
+                if(Graphics[this.kind][this.angle][py][px]==7)
                     ctx.fillStyle=negro;
 
-                ctx.fillRect((this.x + px -1 )*anchoF, (this.y + py - margenSuperior) *altoF , anchoF, altoF )
+                ctx.fillRect((this.x + px -1 )*widthF, (this.y + py - TopMargin) *tallF , widthF, tallF )
                 
             }
         } 
-        }
-     
     }
+ };
 
-//rotar pieza   
-this.rotar = function(){
+//rotatepiece   
+this.rotate= function(){
 
-    var anguloNuevo=this.angulo;
+    var angleNew=this.angle;
 
-
-    if ( anguloNuevo < 3){
-        anguloNuevo++;
+    if ( angleNew < 3){
+        angleNew++;
     }
     else{
-        anguloNuevo=0;
+        angleNew=0;
     }
 
-    if(this.colision(anguloNuevo,this.y,this.x)==false){
-    this.angulo =anguloNuevo
-}
-     console.log('rotar'); 
-}
+    if(this.collision(angleNew,this.y,this.x)==false){
+    this.angle =angleNew
+
+    }
+     console.log('rotate'); 
+};
 
 
-//teclas
-    
-    this.abajo = function(){
-        if(this.colision(this.angulo,this.y+1,this.x)==false){
+//teclas 
+    this.down = function(){
+
+        if(this.collision(this.angle,this.y+1,this.x)==false){
         this.y ++
-        console.log('abajo');   
+        console.log('down');   
      }
        }
-    
-
-       this.derecha = function(){
-        if(this.colision(this.angulo,this.y,this.x+1)==false){
+       this.right = function(){
+        if(this.collision(this.angle,this.y,this.x+1)==false){
         this.x ++;
-        console.log('derecha');   
+        console.log('right');   
         }
     }
-       
-
-       this.izquierda = function(){
-        if(this.colision(this.angulo,this.y,this.x-1)==false){
+       this.left = function(){
+        if(this.collision(this.angle,this.y,this.x-1)==false){
         this.x --
-        console.log('izquierda');   
+        console.log('left');   
        }
     }
-       this.nueva()
-
+       this.newPiece()
 };
 
    
-function dibujaTablero(){
-        for(py=margenSuperior;py<altoTablero;py++){
-            for(px=1;px<anchoTablero+1;px++){
+function drawBoard(){
+        for(py=TopMargin;py<tallboard;py++){
+            for(px=1;px<widthboard+1;px++){
               
                 
-                if(tablero[py][px]>0){
+                if(board[py][px]>0){
 
-                if(tablero[py][px]==1)
+                if(board[py][px]==1)
                     ctx.fillStyle=rojo;
-                if(tablero[py][px]==2)
+                if(board[py][px]==2)
                     ctx.fillStyle=morado;
-                if(tablero[py][px]==3)
+                if(board[py][px]==3)
                     ctx.fillStyle=vino;
-                if(tablero[py][px]==4)
+                if(board[py][px]==4)
                     ctx.fillStyle=azul;
-                if(tablero[py][px]==5)
+                if(board[py][px]==5)
                     ctx.fillStyle=verde;
-                if(tablero[py][px]==6)
+                if(board[py][px]==6)
                     ctx.fillStyle=rosa;
-                if(tablero[py][px]==7)
+                if(board[py][px]==7)
                     ctx.fillStyle=negro;
 
-                ctx.fillRect( (px -1)*anchoF, (py - margenSuperior )*altoF , anchoF, altoF )
+                ctx.fillRect( (px -1)*widthF, (py - TopMargin )*tallF , widthF, tallF )
                 
-            }
+           }
         } 
-        }
-     
-    }
+     }
+ };
 
 
    	
 
 
-function InicialisaTeclado(){
+function recognizeKeyboard(){
     document.addEventListener('keydown',function(tecla){
 
          if(tecla.keyCode == 38){
 
-            pieza.rotar();
+            piece.rotate();
 
         }
         if(tecla.keyCode == 40){
-           pieza.abajo();
+           piece.down();
 
        }
          if(tecla.keyCode == 37){
-            pieza.izquierda();
+            piece.left();
 
         }
         if(tecla.keyCode == 39){
-           pieza.derecha();
-       }
-         
-        
-          
-    });
-    
+           piece.right();
+       }     
+    });  
 }
-//recrear
 
-function reseteaTablero(){
-    console.log("as perdido")
+//recrear
+function reseteaboard(){
+    console.log("you are a lousy")
     for(py=0;py<21;py++){
         for(px=0;px<12;px++){
-           tablero[py][px]=tableroSecundario[py][px];
-
-
-}
+           board[py][px]=boardSecond[py][px];
+        }
     }
-}
+};
 
-
-musica = new Howl({
+/*
+    musica = new Howl({
     src:['musica/tetrix.wav'],
     loop : true  
-  })
+  })*/
 
 
 function inicializa(){
     canvas = document.getElementById('canvas')
     ctx = canvas.getContext('2d')
 ///
-    canvas.style.width = anchoCanvas;
-    canvas.style.height= altoCanvas;
+
+    canvas.style.width = widthCanvas;
+    canvas.style.height= tallCanvas;
 
 ////
-    pieza = new objpieza();
-   ///
+    piece = new objpiece();
+///
+/*
+musica.play()*/
+///
 
-musica.play()
-   //
-    InicialisaTeclado();
+    recognizeKeyboard();
 
     setInterval(function(){
         principal()
     },1000/fps)
 }
 
-function borrarCanvas(){
-canvas.width = anchoCanvas;
-canvas.height =altoCanvas
-
+function deleteCanvas(){
+canvas.width = widthCanvas;
+canvas.height =tallCanvas
 }
 
 function principal(){
-borrarCanvas(); 
-dibujaTablero();
-pieza.caer()
-pieza.dibuja();
-
+deleteCanvas(); 
+drawBoard();
+piece.fallOut()
+piece.draw();
 }

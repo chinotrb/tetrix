@@ -351,14 +351,14 @@ this.clean = function(){
 
     for(py=TopMargin;py<tallboard;py++){
 
-        filaCompleta = true;
+        FullRow= true;
 
         for(px=1;px<=widthboard;px++){
             if(board[py][px]==0){
-                filaCompleta = false;
+                FullRow= false;
             }
         }
-        if(filaCompleta == true){
+        if(FullRow== true){
             console.log("clean");
             for(px=1;px<=widthboard;px++){
                 board[py][px] = 0;
@@ -404,18 +404,18 @@ this.place = function(){
 
 //chocar piece    
 this.collision = function(angleNew , yNew , xNew){
-    var resultado= false;
+    var Outcome= false;
 
     for(py=0;py<4;py++){
         for(px=0;px<4;px++){
             if(Graphics[this.kind][angleNew][py][px]>0){
                 if(board[yNew+py][xNew+px]>0){
-                    resultado=true
+                    Outcome=true
                 }
             }
         }
     }
-   return resultado
+   return Outcome
 };
 
 

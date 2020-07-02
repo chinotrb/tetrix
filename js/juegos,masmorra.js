@@ -26,11 +26,10 @@ var esenario = [
     [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
     
 ];
-
-  musica = new Howl({
+/* musica = new Howl({
   src:['musica/guerra.wav'],
   loop :true  
-})
+})*/
 
 
 
@@ -175,8 +174,11 @@ var player = function(){
     }
 
     this.victoria = function(){
-      console.log('fin del juego');
-  
+      var respuesta=confirm("ya ganaste.quiere repetirlo?");
+      if (respuesta==true)
+        alert("ok,vamos de nuevo");
+      else
+        alert("ok,hasta la proxima");  
       this.x = 3;
       this.y = 8;
   
@@ -186,7 +188,7 @@ var player = function(){
 
 
     this.muerte  = function(){
-      console.log('as perdido');
+      alert("te an matado")
   
       this.x = 1;
       this.y = 9;
@@ -203,7 +205,7 @@ var player = function(){
               if(objeto == 3){
                 this.llave = true;
                 esenario[this.y][this.x]=2;
-                console.log('ya te puedes ir');
+                alert("ya te puede ir")
               }
         
         
@@ -211,7 +213,7 @@ var player = function(){
                 if(this.llave == true)
                   this.victoria();
                 else{
-                  console.log('la llave?');
+                 alert("te falta la llave")
                 }
               }
         
@@ -266,7 +268,7 @@ function inicializa(){
 
      imagenantorcha = new antorcha(2,9)
      
-     musica.play()
+    /// musica.play()
 
      enemigo.push(new malo(12,4))
      enemigo.push(new malo(4,3))

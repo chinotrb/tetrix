@@ -22,7 +22,7 @@ var celeste = '#57B0AF'
 var vino = '#91013b'
 var morado = '#7e0191'
 var rojo = '#910101'
-var balnco= "#ffffff"
+var balnco = "#ffffff"
 
 
 var widthCanvas2 = 200;
@@ -31,8 +31,8 @@ var tallCanvas2 = 200;
 var widthMine = 6;
 var tallMine = 6;
 
-var pieseBoard =[
-  
+var pieseBoard = [
+
     [1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1],
@@ -307,25 +307,42 @@ var Graphics = [
     ]
 ];
 
-var points = 0    
 
-function gamerPoints(){
-cont= 0
-ctx.fillStyle = "#7D3C98 ";
-points = points + 1;
-document.getElementById("gamerPoints").textContent = points;
+var points = 0;
 
-  console.log(points)
-  if(lose= true){
-      cont= points;
-  }
-   
+function gamerPoints() {
+    points = points + 1;
+
+    document.getElementById("gamerPoints").textContent = points;
+
 };
+
+
+
+var pointSav = 0;
+
+function savePoints() {
+    pointSav = pointSav + 1;
+    document.getElementById("savePoints").textContent = pointSav;
+};
+
+
+function lose() {
+    var loser = false;
+
+    for (px = 1; px < widthboard + 1; px++) {
+        if (board[2][px] > 0) {
+            loser = true;
+        }
+    }
+    return loser;
+};
+
 
 var objPiece = function () {
     this.x = 0;
     this.y = 0;
-  
+
     this.retraso = 27;
     this.fotograma = 0;
 
@@ -342,21 +359,8 @@ var objPiece = function () {
 
     };
 
-    this.lose = function () {
-        var loser = false;
 
-        for (px = 1; px < widthboard + 1; px++) {
-            if (board[2][px] > 0) {
-                loser = true;
-
-            }
-        }
-        return loser;
-    };
-
-   
-
-    this.clean = function () {        
+    this.clean = function () {
         const emptyLine = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1];
         var fullRow;
         for (py = TopMargin; py < tallboard; py++) {
@@ -368,17 +372,16 @@ var objPiece = function () {
                 }
             }
             if (fullRow == true) {
-                gamerPoints();
-                console.log("clean");                
+
                 board.splice(py, 1);
                 board.splice(TopMargin, 0, emptyLine);
-                
+
+                gamerPoints();
+                savePoints();
             }
 
-        }        
-        
-        
-        
+        }
+
     }
 
     this.fallOut = function () {
@@ -397,10 +400,11 @@ var objPiece = function () {
                 this.place()
                 this.clean()
                 this.newPiece()
-             
 
-                if (this.lose() == true) {
+
+                if (lose() == true) {
                     reseteaboard()
+                    alert(pointSav)
                 }
             }
         }
@@ -435,7 +439,7 @@ var objPiece = function () {
 
     // drawpieces 
     this.draw = function () {
-        for (py = 0; py < 4; py++) 
+        for (py = 0; py < 4; py++)
             for (px = 0; px < 4; px++) {
 
 
@@ -449,7 +453,7 @@ var objPiece = function () {
                         ctx.fillStyle = vino;
                     if (Graphics[this.kind][this.angle][py][px] == 4)
                         ctx.fillStyle = azul;
-                    if (Graphics[this.kind][this.angle][py][px]== 5)
+                    if (Graphics[this.kind][this.angle][py][px] == 5)
                         ctx.fillStyle = verde;
                     if (Graphics[this.kind][this.angle][py][px] == 6)
                         ctx.fillStyle = rosa;
@@ -457,8 +461,8 @@ var objPiece = function () {
                         ctx.fillStyle = balnco;
 
                     ctx.fillRect((this.x + px - 1) * widthF, (this.y + py - TopMargin) * tallF, widthF, tallF)
-                   }
-        }
+                }
+            }
     };
 
     //rotatepiece   
@@ -477,7 +481,7 @@ var objPiece = function () {
             this.angle = angleNew
 
         }
-       // console.log('rotate');
+        // console.log('rotate');
     };
 
 
@@ -486,13 +490,13 @@ var objPiece = function () {
 
         if (this.collision(this.angle, this.y + 1, this.x) == false) {
             this.y++
-           // console.log('down');
+            // console.log('down');
         }
     }
     this.right = function () {
         if (this.collision(this.angle, this.y, this.x + 1) == false) {
             this.x++;
-         //   console.log('right');
+            //   console.log('right');
         }
     }
     this.left = function () {
@@ -501,7 +505,7 @@ var objPiece = function () {
             //console.log('left');
         }
     }
-   this.newPiece()
+    this.newPiece()
 };
 
 
@@ -513,7 +517,7 @@ function drawBoard() {
 
 
             if (board[py][px] > 0) {
-      
+
                 if (board[py][px] == 1)
                     ctx.fillStyle = rojo;
                 if (board[py][px] == 2)
@@ -536,9 +540,9 @@ function drawBoard() {
     }
 };
 
-function drawMinBoard(){
-    for (my = 0; my <tallMine; my++) {
-        for (mx = 0; mx <widthMine ; mx++) {
+function drawMinBoard() {
+    for (my = 0; my < tallMine; my++) {
+        for (mx = 0; mx < widthMine; mx++) {
 
 
             if (pieseBoard[my][mx] > 0) {
@@ -547,7 +551,7 @@ function drawMinBoard(){
                     ctx.fillStyle = rojo;
                 if (pieseBoard[my][mx] == 2)
                     ctx.fillStyle = morado;
-                if (pieseBoard[my][mx]== 3)
+                if (pieseBoard[my][mx] == 3)
                     ctx.fillStyle = vino;
                 if (pieseBoard[my][mx] == 4)
                     ctx.fillStyle = azul;
@@ -565,14 +569,6 @@ function drawMinBoard(){
     }
 };
 
-var name 
-
-function askname(){
-name=prompt('name of gamer:','');
-document.write(name)
-document.getElementById("name").textContent = name;
-
-};
 
 
 
@@ -580,89 +576,91 @@ function recognizeKeyboard() {
     document.addEventListener('keydown', function (tecla) {
 
         if (tecla.keyCode == 87) {
-
             piece.rotate();
-
         }
         if (tecla.keyCode == 83) {
             piece.down();
 
         }
-        if (tecla.keyCode ==  65) {
+        if (tecla.keyCode == 65) {
             piece.left();
 
         }
-        if (tecla.keyCode ==68 ) {
+        if (tecla.keyCode == 68) {
             piece.right();
         }
 
         if (tecla.keyCode == 71)/*g*/ {
-            save(name);
-            savecont(cont)
+            save(name, pointSav);
         }
 
-        if (tecla.keyCode ==  72)/*h*/ {
+        if (tecla.keyCode == 72)/*h*/ {
             var dato = load();
             console.log(dato)
-            loadpoint()
         }
-        if (tecla.keyCode ==  66)/*b*/ {
-         deletes()
+        if (tecla.keyCode == 66)/*b*/ {
+            deletes()
         }
-       
+
     });
 };
 
+var name
+
+function askname() {
+    name = prompt('name of gam  er:', '');
+    document.getElementById("name").textContent = name;
+
+};
+
+function save(valor) {
+    localStorage.setItem("name_player", valor)
+    console.log("nombre guardado")
+}
+
+function load() {
+    return (localStorage.getItem("name_player"));
+
+}
+
+function deletes() {
+    localStorage.removeItem("name_player")
+}
+
+
+
 //recrear
 function reseteaboard() {
-   alert("you are a lousy")
+    points = 0;
+    document.getElementById("gamerPoints").textContent = points;
+
     for (py = 0; py < 21; py++) {
         for (px = 0; px < 12; px++) {
             board[py][px] = defaultBoard[py][px];
         }
     }
 };
-function savecont(valor){
-    localStorage.setItem("point_player",valor)
-    console.log("dato guardado")
-}
-
-function save(valor){
-    localStorage.setItem("name_player",valor)
-    console.log("nombre guardado")
-}
-function loadpoint(){
-    return(localStorage.getItem("point_player"));
-}
-
-
-function load(){
-    return(localStorage.getItem("name_player"));
-  
-}
-
-function deletes(){
-localStorage.removeItem("name_player")
-}
 
 
 
-function createBoard(){
-var numFila
-var ended = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-var equaLline = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 
-numFila=prompt("ingrese el numero de filas");
-document.write(numFila);
+function createBoard() {
+    var numFila
+    var ended = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    var equaLline = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 
-board.push(numFila)
+    numFila = prompt("ingrese el numero de filas");
+    document.write(numFila);
+
+    board.push(numFila)
 
 
-return ended
+    return ended
 };
 
 
 function inicializa() {
+    askname()
 
     canvas2 = document.getElementById('canvas2');
     ctx = canvas2.getContext('2d');
@@ -680,28 +678,26 @@ function inicializa() {
     //
     recognizeKeyboard();
     //
-    setInterval(function(){
-    principal()
+    setInterval(function () {
+        principal()
     }, 1000 / fps)
 }
 
-function deleteCanvas() {   
+function deleteCanvas() {
     canvas.width = widthCanvas;
     canvas.height = tallCanvas;
-    //
-}    
-function deleteCanvas2(){
+}
+function deleteCanvas2() {
     canvas2.width = widthMine;
     canvas2.height = tallMine;
-} 
+}
 
 
-
-function principal() {  
+function principal() {
     deleteCanvas();
     deleteCanvas2()
-    drawBoard(); 
-   // drawMinBoard();
+    drawBoard();
+    // drawMinBoard();
     piece.fallOut();
     piece.draw();
 }

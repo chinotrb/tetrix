@@ -1,22 +1,57 @@
-</html>
-    <title>mis juegos</title>
+<html>
+<title>mis juegos</title>
 <script src="js/howler.core.js"></script>
 <script src="js/keypress.js"></script>
 <script src="js/tetrix.js "></script>
 
-<body onload="inicializa()">
-    <body bgcolor=black text=white>
-        <font face="Comic Sans MS,arial,verdana">Name of player: </font>  <p id=name></p>  
-      
-        <font face="Comic Sans MS,arial,verdana">Points</font>  <p id="gamerPoints"></p>
-    
-        <font face="Comic Sans MS,arial,verdana">Saved Points</font>: <p id="savePoints"></p>
-     
-    <canvas id="canvas" style= "border:2px solid #294665   "></canvas>
-  
-      <canvas id="canvas2" style= "border:2px solid #65294E  "></canvas>
-  
-</body>
-</html>
 
-by Chinox (Bryan)
+
+
+
+<body bgcolor=GRAY text="White">
+    <button onclick="inicializa()">start</button>
+    <h4 align=left>
+        </font>
+        <font color=gold>
+            <font face="arial">Name of player: </font>
+        </font>
+        <font color=red>
+            <p id=name></p>
+        </font>
+
+        <font color=gold>
+            <font face="arial">Points:</font>
+        </font>
+        <font color=red>
+            <p id="gamerPoints"> </p>
+        </font>
+
+        <font color=gold>
+            <font face="arial">Saved Points:</font>
+        </font>
+        <font color=red>
+            <p id="savePoints"></p>
+        </font>
+    </h4>
+
+    <h4 align=center>
+        <canvas id="canvas" style="border:10px solid rgb(2, 2, 61)  "></canvas>
+        <canvas onload="drawMinBoard()" id="canvas2" style="border:10px solid rgb(2, 2, 61)  "></canvas>
+
+    </h4>
+    <h4>
+        dificltad:
+        <select name="difficulty" id="difficulty">
+            <option style="color: salmon; font-weight: bold;" value="easy">child mode</option>
+            <option style="color: black;font-weight: bold;" value="normal">normal</option>
+            <option style="color :red;font-weight: bold;" value="!!GOD!!">!!GOD!!</option>
+        </select>
+    </h4>
+
+
+<h4>by Bryan T.R.B 
+</h4>
+    
+</body>
+
+</html>

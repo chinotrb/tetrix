@@ -1,24 +1,51 @@
-var canvas
-var ctx
-var fps = 50
-var canvas2
+var fps = 30
 
-var widthCanvas = 400;
-var tallCanvas = 640;
+function difficulty(e) {
+    const value = e.currentTarget.value;
+
+    if (value == "easy") {
+        fps = 30
+        console.log("no es pisible que pierdas ")
+        console.log(fps)
+    }
+
+
+     if (value == "normal") {
+        fps = 50;
+        console.log("aun es facil")
+        console.log(fps)
+    }
+
+
+    if (value == "!!GOD!!") {
+        fps = 5;
+        console.log("quieres ver a dios a los ojos?")
+        console.log(fps)
+    }
+
+
+}
+
+var ctx
+
+var canvas2
+var canvas
+var widthCanvas = 300;
+var tallCanvas = 480;
 
 var widthboard = 10;
 var tallboard = 20;
 
 var piece
-var widthF = 40
-var tallF = 40
+var widthF = 30
+var tallF = 30
 var TopMargin = 4
 //var musica 
 
 var rosa = '#fc052e'
 var verde = '#14ff08'
 var azul = '#219182'
-var celeste = '#57B0AF'
+var negro = '#000000 '
 var vino = '#91013b'
 var morado = '#7e0191'
 var rojo = '#910101'
@@ -31,13 +58,15 @@ var tallCanvas2 = 200;
 var widthMine = 6;
 var tallMine = 6;
 
+
+
 var pieseBoard = [
 
     [1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 0, 1],
     [1, 1, 1, 1, 1, 1]
 ];
 
@@ -324,6 +353,11 @@ var pointSav = 0;
 function savePoints() {
     pointSav = pointSav + 1;
     document.getElementById("savePoints").textContent = pointSav;
+
+    if (lose() == true) {
+        console.log("nice")
+    }
+
 };
 
 
@@ -452,7 +486,7 @@ var objPiece = function () {
                     if (Graphics[this.kind][this.angle][py][px] == 3)
                         ctx.fillStyle = vino;
                     if (Graphics[this.kind][this.angle][py][px] == 4)
-                        ctx.fillStyle = azul;
+                        ctx.fillStyle = negro;
                     if (Graphics[this.kind][this.angle][py][px] == 5)
                         ctx.fillStyle = verde;
                     if (Graphics[this.kind][this.angle][py][px] == 6)
@@ -525,7 +559,7 @@ function drawBoard() {
                 if (board[py][px] == 3)
                     ctx.fillStyle = vino;
                 if (board[py][px] == 4)
-                    ctx.fillStyle = azul;
+                    ctx.fillStyle = negro;
                 if (board[py][px] == 5)
                     ctx.fillStyle = verde;
                 if (board[py][px] == 6)
@@ -572,22 +606,25 @@ function drawMinBoard() {
 
 
 
+
 function recognizeKeyboard() {
     document.addEventListener('keydown', function (tecla) {
 
         if (tecla.keyCode == 87) {
             piece.rotate();
+            console.log("rotate")
         }
         if (tecla.keyCode == 83) {
             piece.down();
-
+            console.log("down")
         }
         if (tecla.keyCode == 65) {
             piece.left();
-
+            console.log("left")
         }
         if (tecla.keyCode == 68) {
             piece.right();
+            console.log("right")
         }
 
         if (tecla.keyCode == 71)/*g*/ {
@@ -603,12 +640,14 @@ function recognizeKeyboard() {
         }
 
     });
+
+    document.getElementById("difficulty").addEventListener("change", difficulty);
 };
 
 var name
 
 function askname() {
-    name = prompt('name of gam  er:', '');
+    name = prompt('name of gamer: ', '');
     document.getElementById("name").textContent = name;
 
 };
@@ -633,6 +672,7 @@ function deletes() {
 function reseteaboard() {
     points = 0;
     document.getElementById("gamerPoints").textContent = points;
+
 
     for (py = 0; py < 21; py++) {
         for (px = 0; px < 12; px++) {
@@ -680,6 +720,7 @@ function inicializa() {
     //
     setInterval(function () {
         principal()
+
     }, 1000 / fps)
 }
 

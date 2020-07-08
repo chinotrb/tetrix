@@ -1,30 +1,6 @@
-var fps = 30
-
-function difficulty(e) {
-    const value = e.currentTarget.value;
-
-    if (value == "easy") {
-        fps = 30
-        console.log("no es pisible que pierdas ")
-        console.log(fps)
-    }
+var fps = 50
 
 
-     if (value == "normal") {
-        fps = 50;
-        console.log("aun es facil")
-        console.log(fps)
-    }
-
-
-    if (value == "!!GOD!!") {
-        fps = 5;
-        console.log("quieres ver a dios a los ojos?")
-        console.log(fps)
-    }
-
-
-}
 
 var ctx
 
@@ -354,9 +330,6 @@ function savePoints() {
     pointSav = pointSav + 1;
     document.getElementById("savePoints").textContent = pointSav;
 
-    if (lose() == true) {
-        console.log("nice")
-    }
 
 };
 
@@ -469,7 +442,6 @@ var objPiece = function () {
         }
         return Outcome
     };
-
 
     // drawpieces 
     this.draw = function () {
@@ -649,18 +621,21 @@ var name
 function askname() {
     name = prompt('name of gamer: ', '');
     document.getElementById("name").textContent = name;
-
+    
 };
 
+
 function save(valor) {
-    localStorage.setItem("name_player", valor)
-    console.log("nombre guardado")
+    localStorage.setItem("name_player","name", valor)
+    console.log("nombre guardado","name")
 }
+
 
 function load() {
-    return (localStorage.getItem("name_player"));
+    return (localStorage.getItem("name_player","name"));
 
 }
+
 
 function deletes() {
     localStorage.removeItem("name_player")
@@ -673,12 +648,13 @@ function reseteaboard() {
     points = 0;
     document.getElementById("gamerPoints").textContent = points;
 
-
+    reseteaboard == true 
     for (py = 0; py < 21; py++) {
         for (px = 0; px < 12; px++) {
             board[py][px] = defaultBoard[py][px];
         }
     }
+
 };
 
 
@@ -699,8 +675,33 @@ function createBoard() {
 };
 
 
+
+function difficulty(e) {
+    const value = e.currentTarget.value;
+
+    if (value == "easy") {
+        fps = 50
+        console.log("no es pisible que pierdas ")
+        console.log(fps)
+    }
+
+
+    if (value == "normal") {
+        fps = 40;
+        console.log("aun es facil")
+        console.log(fps)
+    }
+
+
+    if (value == "!!GOD!!") {
+        fps = 10;
+        console.log("quieres ver a dios a los ojos?")
+        console.log(fps)
+    }
+}
+
 function inicializa() {
-    askname()
+   
 
     canvas2 = document.getElementById('canvas2');
     ctx = canvas2.getContext('2d');
@@ -720,7 +721,6 @@ function inicializa() {
     //
     setInterval(function () {
         principal()
-
     }, 1000 / fps)
 }
 

@@ -8,8 +8,15 @@
 
 
 
-<body bgcolor=GRAY text="White">
-    <button onclick="inicializa()">start</button>
+<body bgcolor=GRAY text="White" onload="askname()">
+    <button onclick="inicializa()">start</button><br>
+    dificltad:
+    <select name="difficulty" id="difficulty">
+        <option style="color: rgb(104, 10, 0); font-weight: bold;" value="defaut">default mode</option>
+        <option style="color: salmon; font-weight: bold;" value="easy">child mode</option>
+        <option style="color: black;font-weight: bold;" value="normal">normal</option>
+        <option style="color :red;font-weight: bold;" value="!!GOD!!">!!GOD!!</option>
+    </select>
     <h4 align=left>
         </font>
         <font color=gold>
@@ -40,18 +47,13 @@
 
     </h4>
     <h4>
-        dificltad:
-        <select name="difficulty" id="difficulty">
-            <option style="color: salmon; font-weight: bold;" value="easy">child mode</option>
-            <option style="color: black;font-weight: bold;" value="normal">normal</option>
-            <option style="color :red;font-weight: bold;" value="!!GOD!!">!!GOD!!</option>
-        </select>
+
     </h4>
 
 
-<h4>by Bryan T.R.B 
-</h4>
-    
+    <h4>by Bryan T.R.B
+    </h4>
+
 </body>
 
 </html>
